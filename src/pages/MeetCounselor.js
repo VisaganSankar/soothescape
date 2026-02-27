@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { apiUrl } from '../config/api';
 
 const MeetCounselor = () => {
   const { isLoggedIn, userEmail } = useAuth();
@@ -137,7 +138,7 @@ const MeetCounselor = () => {
   // API functions
   const createBooking = async (bookingData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/bookings', {
+      const response = await fetch(apiUrl('/api/bookings'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -158,7 +159,7 @@ const MeetCounselor = () => {
 
   const fetchUserBookings = async (email) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings/${email}`);
+      const response = await fetch(apiUrl(`/api/bookings/${email}`));
       if (!response.ok) {
         throw new Error('Failed to fetch bookings');
       }
@@ -171,7 +172,7 @@ const MeetCounselor = () => {
 
   const cancelBooking = async (bookingId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings/${bookingId}`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ const MeetCounselor = () => {
 
   const deleteBooking = async (bookingId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings/${bookingId}`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}`), {
         method: 'DELETE',
       });
       

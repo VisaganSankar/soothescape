@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { apiUrl } from '../config/api';
 
 const Login = () => {
   const [mode, setMode] = useState('signIn');
@@ -21,9 +22,7 @@ const Login = () => {
     }
 
     try {
-      const endpoint = mode === 'signUp'
-        ? 'http://localhost:5000/register'
-        : 'http://localhost:5000/login';
+      const endpoint = apiUrl(mode === 'signUp' ? '/register' : '/login');
 
       const body = mode === 'signUp'
         ? { email: username, password }
