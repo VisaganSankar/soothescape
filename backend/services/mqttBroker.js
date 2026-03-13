@@ -9,7 +9,6 @@ class MQTTBroker {
     this.sensorData = {
       gsr: 0,
       heartRate: 0,
-      spo2: 0,
       timestamp: Date.now()
     };
     this.hasReceivedData = false;
@@ -17,7 +16,6 @@ class MQTTBroker {
     this.dataBuffer = {
       gsr: 0,
       heartRate: 0,
-      spo2: 0,
       timestamp: Date.now()
     };
     this.updateTimeout = null;
@@ -59,7 +57,6 @@ class MQTTBroker {
     const topics = [
       mqttConfig.topics.gsr,
       mqttConfig.topics.heartRate,
-      mqttConfig.topics.spo2,
       mqttConfig.topics.status
     ];
 
@@ -106,12 +103,6 @@ class MQTTBroker {
           console.log(`❤️ Heart Rate from Arduino: ${value} BPM (type: ${typeof value})`);
           this.debouncedPublish();
           break;
-        case mqttConfig.topics.spo2:
-          this.dataBuffer.spo2 = value;
-          this.dataBuffer.timestamp = now;
-          console.log(`🫁 SpO2 from Arduino: ${value}% (type: ${typeof value})`);
-          this.debouncedPublish();
-          break;
         case mqttConfig.topics.status:
           console.log('Sensor status:', messageStr);
           break;
@@ -150,7 +141,7 @@ class MQTTBroker {
   debouncedPublish() {
     // Publish immediately - no delay
     this.sensorData = { ...this.dataBuffer };
-    console.log(`📤 Backend sending to frontend immediately: GSR=${this.sensorData.gsr}, HR=${this.sensorData.heartRate}, SpO2=${this.sensorData.spo2}`);
+    console.log(`📤 Backend sending to frontend immediately: GSR=${this.sensorData.gsr}, HR=${this.sensorData.heartRate}`);
     this.publishToSubscribers('sensorData', this.sensorData);
   }
 
@@ -174,7 +165,6 @@ class MQTTBroker {
       return {
         gsr: 0,
         heartRate: 0,
-        spo2: 0,
         timestamp: Date.now()
       };
     }

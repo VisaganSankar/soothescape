@@ -8,7 +8,6 @@ export const mqttConfig = {
   topics: {
     gsr: 'sensors/gsr',
     heartRate: 'sensors/hr',
-    spo2: 'sensors/spo2',
     status: 'sensors/status'
   },
   reconnectInterval: 5000,

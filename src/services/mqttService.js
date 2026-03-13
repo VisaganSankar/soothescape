@@ -8,7 +8,6 @@ class MQTTService {
     this.sensorData = {
       gsr: 0,
       heartRate: 0,
-      spo2: 0,
       timestamp: Date.now()
     };
   }
@@ -31,13 +30,12 @@ class MQTTService {
           const safeData = {
             gsr: data.gsr !== undefined && data.gsr !== null ? data.gsr : 0,
             heartRate: data.heartRate !== undefined && data.heartRate !== null ? data.heartRate : 0,
-            spo2: data.spo2 !== undefined && data.spo2 !== null ? data.spo2 : 0,
             timestamp: data.timestamp || Date.now()
           };
           
           // Always update with latest Arduino data
           this.sensorData = safeData;
-          console.log(`📥 Frontend received: GSR=${safeData.gsr}, HR=${safeData.heartRate}, SpO2=${safeData.spo2}`);
+          console.log(`📥 Frontend received: GSR=${safeData.gsr}, HR=${safeData.heartRate}`);
           this.notifySubscribers('sensorData', safeData);
         } catch (error) {
           console.error('Error parsing sensor data:', error);
@@ -112,7 +110,6 @@ class MQTTService {
         const safeData = {
           gsr: data.gsr !== undefined && data.gsr !== null ? data.gsr : 0,
           heartRate: data.heartRate !== undefined && data.heartRate !== null ? data.heartRate : 0,
-          spo2: data.spo2 !== undefined && data.spo2 !== null ? data.spo2 : 0,
           timestamp: data.timestamp || Date.now()
         };
         

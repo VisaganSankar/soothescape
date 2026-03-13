@@ -9,7 +9,6 @@ export const mqttConfig = {
     // Match the topics your ESP8266 publishes in your Arduino code
     gsr: 'project/stress/gsr_score',
     heartRate: 'project/stress/heartrate',
-    spo2: 'project/stress/spo2',
     status: 'project/stress/status'
   },
   options: {
