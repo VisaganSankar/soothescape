@@ -139,6 +139,34 @@ const Dashboard = () => {
     }
   };
 
+  // Build smooth area chart path (SVG) – no extra deps
+  const buildAreaPath = (data, height, yMax, yMin = 0) => {
+    const arr = data.slice(-24);
+    const n = arr.length;
+    if (n < 2) return { path: '', linePath: '' };
+    const w = 360;
+    const h = height - 16;
+    const pad = 8;
+    const range = yMax - yMin || 1;
+    const x = i => pad + (i / (n - 1)) * (w - pad * 2);
+    const y = v => pad + (h - 2 * pad) - ((v - yMin) / range) * (h - 2 * pad);
+    let linePath = `M ${x(0)} ${y(arr[0])}`;
+    for (let i = 1; i < n; i++) {
+      const x0 = x(i - 1), x1 = x(i);
+      const y0 = y(arr[i - 1]), y1 = y(arr[i]);
+      const cpX = (x0 + x1) / 2;
+      linePath += ` Q ${cpX} ${y0}, ${x1} ${y1}`;
+    }
+    const areaPath = `${linePath} L ${x(n - 1)} ${h - pad} L ${x(0)} ${h - pad} Z`;
+    return { path: areaPath, linePath };
+  };
+
+  const gsrMax = Math.max(600, ...gsrData);
+  const hrMax = Math.max(120, ...hrData);
+  const hrMin = Math.min(60, ...hrData.filter(Boolean)) || 60;
+  const gsrChart = buildAreaPath(gsrData, 200, gsrMax, 0);
+  const hrChart = buildAreaPath(hrData, 200, hrMax, hrMin);
+
   return (
     <div className="section">
       <div className="container">
@@ -194,41 +222,36 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '48px'}}>
-          <div className="card" style={{padding: '24px'}}>
+        {/* Charts Section – smooth area charts */}
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '48px'}}>
+          <div className="card" style={{padding: '24px', overflow: 'hidden'}}>
             <h3 style={{margin: '0 0 16px', color: 'var(--text)'}}>GSR Over Time</h3>
-            <div style={{height: '200px', background: 'var(--surface)', borderRadius: '8px', padding: '16px', display: 'flex', alignItems: 'end', justifyContent: 'space-between'}}>
-              {gsrData.slice(-20).map((value, index) => (
-                <div
-                  key={index}
-                  style={{
-                    width: '8px',
-                    height: `${(value / 600) * 150}px`,
-                    background: 'linear-gradient(to top, var(--accent), rgba(34, 211, 238, 0.3))',
-                    borderRadius: '4px 4px 0 0',
-                    minHeight: '2px'
-                  }}
-                />
-              ))}
+            <div style={{height: '200px', background: 'var(--surface)', borderRadius: '12px', padding: '16px'}}>
+              <svg width="100%" height="200" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid meet" style={{display: 'block'}}>
+                <defs>
+                  <linearGradient id="gsrGrad" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0%" stopColor="rgba(34, 211, 238, 0.35)" />
+                    <stop offset="100%" stopColor="rgba(34, 211, 238, 0.02)" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#gsrGrad)" d={gsrChart.path} />
+                <path fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d={gsrChart.linePath} />
+              </svg>
             </div>
           </div>
-          
-          <div className="card" style={{padding: '24px'}}>
+          <div className="card" style={{padding: '24px', overflow: 'hidden'}}>
             <h3 style={{margin: '0 0 16px', color: 'var(--text)'}}>Heart Rate Over Time</h3>
-            <div style={{height: '200px', background: 'var(--surface)', borderRadius: '8px', padding: '16px', display: 'flex', alignItems: 'end', justifyContent: 'space-between'}}>
-              {hrData.slice(-20).map((value, index) => (
-                <div
-                  key={index}
-                  style={{
-                    width: '8px',
-                    height: `${((value - 60) / 60) * 150}px`,
-                    background: 'linear-gradient(to top, var(--primary), rgba(12, 108, 242, 0.3))',
-                    borderRadius: '4px 4px 0 0',
-                    minHeight: '2px'
-                  }}
-                />
-              ))}
+            <div style={{height: '200px', background: 'var(--surface)', borderRadius: '12px', padding: '16px'}}>
+              <svg width="100%" height="200" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid meet" style={{display: 'block'}}>
+                <defs>
+                  <linearGradient id="hrGrad" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0%" stopColor="rgba(59, 130, 246, 0.4)" />
+                    <stop offset="100%" stopColor="rgba(59, 130, 246, 0.03)" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#hrGrad)" d={hrChart.path} />
+                <path fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d={hrChart.linePath} />
+              </svg>
             </div>
           </div>
         </div>
