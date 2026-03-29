@@ -18,8 +18,8 @@ const MeetCounselor = () => {
   const counselors = [
     {
       id: 1,
-      name: 'Dr. Sarah Chen',
-      title: 'Licensed Clinical Psychologist',
+      name: 'Dr Babu Rangarajan t',
+      title: 'Clinical Psychologis',
       specialty: 'anxiety',
       specialties: ['Anxiety & Stress', 'Depression', 'Mindfulness'],
       sessionTypes: ['video', 'phone', 'in-person'],
@@ -29,13 +29,13 @@ const MeetCounselor = () => {
       experience: '8 years',
       price: '$150/hour',
       bio: 'Specializes in anxiety disorders and stress management with a focus on evidence-based treatments.',
-      image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sarah',
-      languages: ['English', 'Mandarin']
+      image: 'counselor1.jpeg',
+      languages: ['English', 'Tamil']
     },
     {
       id: 2,
-      name: 'Dr. Marcus Johnson',
-      title: 'Licensed Marriage & Family Therapist',
+      name: 'DrRoja Ramani',
+      title: 'Clinical Psychologis',
       specialty: 'relationships',
       specialties: ['Relationships', 'Couples Therapy', 'Family Dynamics'],
       sessionTypes: ['video', 'chat', 'in-person'],
@@ -45,8 +45,8 @@ const MeetCounselor = () => {
       experience: '12 years',
       price: '$140/hour',
       bio: 'Expert in relationship counseling and helping couples build stronger connections.',
-      image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=marcus',
-      languages: ['English', 'Spanish']
+      image: 'counselor2.jpeg',
+      languages: ['English', 'Tamil']
     },
     {
       id: 3,
