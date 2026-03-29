@@ -29,7 +29,7 @@ const MeetCounselor = () => {
       experience: '8 years',
       price: '$150/hour',
       bio: 'Specializes in anxiety disorders and stress management with a focus on evidence-based treatments.',
-      image: 'counselor1.jpeg',
+      image: '/counselor1.jpeg',
       languages: ['English', 'Tamil']
     },
     {
@@ -45,7 +45,7 @@ const MeetCounselor = () => {
       experience: '12 years',
       price: '$140/hour',
       bio: 'Expert in relationship counseling and helping couples build stronger connections.',
-      image: 'counselor2.jpeg',
+      image: '/counselor2.jpeg',
       languages: ['English', 'Tamil']
     },
     {
